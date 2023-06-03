@@ -103,23 +103,23 @@
 \end{myRemark}
 
 \begin{myRemark}[構文論的同値と真理値]
-  \label{rmk:prop:syntax-equiv-truth}
+  \label{rmk:prop:syntax-semeq-truth}
   $\varphi, \psi$は論理式とし，$\PropValuation_\PropInterpret$は付値とする．
   $\varphi,\psi$が構文論的に同値であるなら，
   $\PropValuation_\PropInterpret$での真理値も一致する．
-  すなわち，$\varphi \equiv \psi$ならば
+  すなわち，$\varphi \semeq \psi$ならば
   $\PropValuation_\PropInterpret(\varphi) = \PropValuation_\PropInterpret(\psi)$である．
   逆に，真理値が一致しているからといって，構文論的に同値であるとは限らない．
   すなわち，$\PropValuation_\PropInterpret(\varphi) = \PropValuation_\PropInterpret(\psi)$ならば
-  $\varphi \equiv \psi$であるとは限らない．
+  $\varphi \semeq \psi$であるとは限らない．
 \end{myRemark}
 
 \begin{myCorollary}[省略記号$\land, \lor, \liff$の真理値]
   \label{cor:prop:valuation-sugar-syntax}
   $\varphi, \psi$は論理式とし，$\PropValuation_\PropInterpret$は付値とする．
   \ref{def:prop:sugar-sytnax}で導入した省略記号$\land, \lor, \liff$を展開した論理式は，
-  \ref{exp:prop:syntax-equiv}で示した．
-  \ref*{rmk:prop:syntax-equiv-truth}より，展開前と展開後の論理式の真理値は一致しなければならない．
+  \ref{exp:prop:syntax-semeq}で示した．
+  \ref*{rmk:prop:syntax-semeq-truth}より，展開前と展開後の論理式の真理値は一致しなければならない．
   すなわち，次が成り立つ．
   \begin{enumerate}
     \item $\PropValuation_\PropInterpret(\varphi \lor \psi) = \PropValuation_\PropInterpret(\lnot \varphi \limp \psi)$

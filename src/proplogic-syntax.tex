@@ -83,16 +83,16 @@
   $\sigma_1,\sigma_2$は命題論理の記号列とする．
   $\sigma_1,\sigma_2$について，\ref*{def:prop:sugar-sytnax}と\ref*{def:prop:rmparen}の省略を全て元に戻した記号列が等しいとき，
   $\sigma_1$と$\sigma_2$は構文論的に同値であるといい，
-  $\sigma_1 \equiv \sigma_2$と書くことにする．
+  $\sigma_1 \semeq \sigma_2$と書くことにする．
 \end{myDefinition}
 
 \begin{myExample}[構文論的同値の例]
-  \label{exp:prop:syntax-equiv}
+  \label{exp:prop:syntax-semeq}
   $\varphi, \psi$は論理式とする．例えば，以下は構文論的に同値である．
   \begin{enumerate}
-    \item $\varphi \lor \psi \equiv \lnot\varphi \limp \psi$．
-    \item $\varphi \land \psi \equiv \lnot(\lnot\varphi \lor \lnot\psi) \equiv \lnot(\lnot\lnot\varphi \limp \lnot\psi)$．
-    \item $\varphi \liff \psi \equiv (\varphi \limp \psi) \land (\psi \limp \varphi) \equiv \lnot(\lnot\lnot(\varphi \limp \psi) \limp \lnot(\psi \limp \varphi))$．
+    \item $\varphi \lor \psi \semeq \lnot\varphi \limp \psi$．
+    \item $\varphi \land \psi \semeq \lnot(\lnot\varphi \lor \lnot\psi) \semeq \lnot(\lnot\lnot\varphi \limp \lnot\psi)$．
+    \item $\varphi \liff \psi \semeq (\varphi \limp \psi) \land (\psi \limp \varphi) \semeq \lnot(\lnot\lnot(\varphi \limp \psi) \limp \lnot(\psi \limp \varphi))$．
   \end{enumerate}
 \end{myExample}
 
