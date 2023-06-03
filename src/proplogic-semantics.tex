@@ -1,6 +1,9 @@
 \subsection{意味論}
 
-\begin{myDefinition}[命題記号の解釈と真理値]
+このままでは$p_0$や$p_0 \to (p_1 \to p_0)$，$p_0 \land p_1$というのは単なる記号列であって，
+何も表していない．命題記号や論理式が何かを表すように，意味論を設計する．
+
+\begin{myDefinition}[命題記号の解釈]
   \label{def:prop:interpret-props}
   命題記号の解釈と真理値を以下のように定める．
   \begin{enumerate}
@@ -13,28 +16,36 @@
 
 \begin{myExample}
   \label{def:prop:interpret-weather}
-  解釈$\PropInterpret$は，命題記号$p_0$を「2023年6月3日の東京では雨が降った」という文に解釈するとする．
-  すなわち，$\PropInterpret(p_0) =$である．
-
-  このとき，この命題の真偽は，実際に2023年6月3日の東京では雨が降ったかどうかを確かめることで判断できる．
-  この命題は真である\footnote{text}
-  ため，$\PropInterpret(p_0) = \True$である．
+  解釈$\PropInterpret$は，命題記号$p_0$を「2023年6月2日の東京では雨が降った」という命題に解釈する．
+  このとき，この命題の真偽は，実際に2023年6月2日の東京では雨が降ったかどうかを確かめることで判断できる．
+  この命題は真である
+  \footnote{
+    気象庁の観測結果より．
+    なお，気象庁の観測機械が壊れていたという可能性を加味して，
+    観測結果を信じないのであれば，この命題は偽であるかもしれない．
+    私も2023年6月2日には東京に居なかったため，雨が降っていたというのは伝聞でしか知らない．
+    私が話を聞いた人間が全員嘘を言っていて，実際には雨が降っていなかったという可能性もある．
+  }
+  ため，$\PropInterpret(p_0) = \True$と表す．
 \end{myExample}
 
 \begin{myExample}
   \label{def:prop:leapyear}
-  \ref{def:prop:interpret-weather}とは別の解釈$\PropInterpret'$では，命題記号$p_0$を「2023年はうるう年である」という文に解釈するとする．
-  すなわち，$\PropInterpret'(p_0) =$である．
-
+  \ref{def:prop:interpret-weather}とは別の解釈$\PropInterpret'$では，命題記号$p_0$を「2023年はうるう年である」という命題に解釈する．
   このとき，この命題の真偽は，うるう年の定義を調べることで判断できる．
   うるう年は，西暦年が「4の倍数であり，かつ，100の倍数でない」または「400の倍数である」であるときである．
   2023は4の倍数でもなければ，400の倍数でもないので，2023年はうるう年ではない．
-  すなわち，この命題は偽であり，$\PropInterpret'(p_0) = \False$である．
+  \footnote{
+    2023が4の倍数でもないとか，400の倍数でもない，というのは
+    何を根拠に言っているのかという疑問が湧くかもしれない．
+    すなわち，ある数$x$が$y$の倍数とは具体的にどういうことなのかはまだ定義していない．
+    この問題は一旦棚上げする．
+  }
+  すなわち，この命題は偽であり，$\PropInterpret'(p_0) = \False$と表す．
 \end{myExample}
 
-\begin{myDefinition}[付値関数]
+\begin{myDefinition}[命題論理の付値]
   \label{def:prop:valuation}
-  論理式についての真理値を以下のように定める．
   \begin{enumerate}
     \item ある解釈$\PropInterpret$の上で命題論理の論理式に$\True$または$\False$を割り当てる写像を，
           $\PropInterpret$の付値と呼び，$\PropValuation_\PropInterpret$で表す．
@@ -63,23 +74,31 @@
 
 \begin{myRemark}[真理値表]
   $\varphi, \psi$は論理式とし，$\PropValuation_\PropInterpret$は付値とする．
-  $\lnot \varphi$と$\varphi \to \psi$の$\PropValuation_\PropInterpret$の真偽を割り当てを，
-  表にしてまとめてみると，以下のようになる．
-  \begin{table}
-    \begin{tabular}{|c|c|}\hline
-      $\PropValuation_\PropInterpret(\varphi)$ & $\PropValuation_\PropInterpret(\lnot\varphi)$ \\ \hline
-      $\True$                                  & $\False$                                      \\ \hline
-      $\False$                                 & $\True$                                       \\ \hline
-    \end{tabular}
-  \end{table}
-  \begin{table}
-    \begin{tabular}{|c|c|c|}\hline
-      $\PropValuation_\PropInterpret(\varphi)$ & $\PropValuation_\PropInterpret(\psi)$ & $\PropValuation_\PropInterpret(\varphi \limp \psi)$ \\ \hline
-      $\True$                                  & $\True$                               & $\True$                                             \\ \hline
-      $\True$                                  & $\False$                              & $\False$                                            \\ \hline
-      $\False$                                 & $\True$                               & $\True$                                             \\ \hline
-      $\False$                                 & $\False$                              & $\True$                                             \\ \hline
-    \end{tabular}
+  $\lnot \varphi$と$\varphi \to \psi$の$\PropValuation_\PropInterpret$の真理値を割り当てを，
+  表にしてまとめると，表\ref{table:prop:not-limp}になる．
+  \begin{table}[H]
+    \begin{subtable}{.48\linewidth}
+      \centering
+      \begin{tabular}{|c|c|}\hline
+        $\PropValuation_\PropInterpret(\varphi)$ & $\PropValuation_\PropInterpret(\lnot\varphi)$ \\ \hline
+        $\True$                                  & $\False$                                      \\ \hline
+        $\False$                                 & $\True$                                       \\ \hline
+      \end{tabular}
+      \subcaption{$\lnot \varphi$の真理値表}
+    \end{subtable}
+    \begin{subtable}{.48\linewidth}\centering
+      \centering
+      \begin{tabular}{|c|c|c|}\hline
+        $\PropValuation_\PropInterpret(\varphi)$ & $\PropValuation_\PropInterpret(\psi)$ & $\PropValuation_\PropInterpret(\varphi \limp \psi)$ \\ \hline
+        $\True$                                  & $\True$                               & $\True$                                             \\ \hline
+        $\True$                                  & $\False$                              & $\False$                                            \\ \hline
+        $\False$                                 & $\True$                               & $\True$                                             \\ \hline
+        $\False$                                 & $\False$                              & $\True$                                             \\ \hline
+      \end{tabular}
+      \subcaption{$\varphi \to \psi$の真理値表}
+    \end{subtable}
+    \caption{$\lnot \varphi$と$\varphi \limp \psi$の真理値表}
+    \label{table:prop:not-limp}
   \end{table}
 \end{myRemark}
 
@@ -107,34 +126,69 @@
     \item $\PropValuation_\PropInterpret(\varphi \land \psi) = \PropValuation_\PropInterpret(\lnot(\lnot\varphi \lor \lnot\psi))$
     \item $\PropValuation_\PropInterpret(\varphi \liff \psi) = \PropValuation_\PropInterpret((\varphi \limp \psi) \land (\psi \limp \varphi))$
   \end{enumerate}
-  これを，真理値表にまとめると以下のようになる．
-  \begin{table}
-    \begin{tabular}{|c|c|c|c|}\hline
-      $\PropValuation_\PropInterpret(\varphi)$ & $\PropValuation_\PropInterpret(\psi)$ & $\PropValuation_\PropInterpret(\lnot\varphi)$ & $\PropValuation_\PropInterpret(\varphi \lor \psi) = \PropValuation_\PropInterpret(\lnot \varphi \limp \psi)$ \\ \hline
-      $\True$                                  & $\True$                               & $\False$                                      & $\True$                                                                                                      \\ \hline
-      $\True$                                  & $\False$                              & $\False$                                      & $\True$                                                                                                      \\ \hline
-      $\False$                                 & $\True$                               & $\True$                                       & $\True$                                                                                                      \\ \hline
-      $\False$                                 & $\False$                              & $\True$                                       & $\False$                                                                                                     \\ \hline
-    \end{tabular}
+  これらの真理値表を表\ref{table:prop:table-and-or-iff}に示す．
+  \begin{table}[H]
+    \begin{subtable}{\linewidth}
+      \centering
+      \begin{tabular}{|c|c|c|c|}\hline
+        $\PropValuation_\PropInterpret(\varphi)$ & $\PropValuation_\PropInterpret(\psi)$ & $\PropValuation_\PropInterpret(\lnot\varphi)$ & $\PropValuation_\PropInterpret(\varphi \lor \psi) = \PropValuation_\PropInterpret(\lnot \varphi \limp \psi)$ \\ \hline
+        $\True$                                  & $\True$                               & $\False$                                      & $\True$                                                                                                      \\ \hline
+        $\True$                                  & $\False$                              & $\False$                                      & $\True$                                                                                                      \\ \hline
+        $\False$                                 & $\True$                               & $\True$                                       & $\True$                                                                                                      \\ \hline
+        $\False$                                 & $\False$                              & $\True$                                       & $\False$                                                                                                     \\ \hline
+      \end{tabular}
+      \subcaption{$\varphi \lor \psi$の真理値表}
+    \end{subtable}
+    \linebreak
+    \begin{subtable}{\linewidth}\centering
+      \centering
+      \begin{tabular}{|c|c|c|c|c|c|}\hline
+        $\PropValuation_\PropInterpret(\varphi)$ & $\PropValuation_\PropInterpret(\psi)$ & $\PropValuation_\PropInterpret(\lnot\varphi)$ & $\PropValuation_\PropInterpret(\lnot\psi)$ & $\PropValuation_\PropInterpret(\lnot \varphi \lor \lnot\psi)$ & $\PropValuation_\PropInterpret(\varphi \land \psi) = \PropValuation_\PropInterpret(\lnot(\lnot\varphi \lor \lnot\psi))$ \\ \hline
+        $\True$                                  & $\True$                               & $\False$                                      & $\False$                                   & $\False$                                                      & $\True$                                                                                                                 \\ \hline
+        $\True$                                  & $\False$                              & $\False$                                      & $\True$                                    & $\True$                                                       & $\False$                                                                                                                \\ \hline
+        $\False$                                 & $\True$                               & $\True$                                       & $\False$                                   & $\True$                                                       & $\False$                                                                                                                \\ \hline
+        $\False$                                 & $\False$                              & $\True$                                       & $\True$                                    & $\True$                                                       & $\False$                                                                                                                \\ \hline
+      \end{tabular}
+      \subcaption{$\varphi \land \psi$の真理値表}
+    \end{subtable}
+    \linebreak
+    \begin{subtable}{\linewidth}\centering
+      \centering
+      \begin{tabular}{|c|c|c|c|c|}\hline
+        $\PropValuation_\PropInterpret(\varphi)$ & $\PropValuation_\PropInterpret(\psi)$ & $\PropValuation_\PropInterpret(\varphi \to \psi)$ & $\PropValuation_\PropInterpret(\psi \to \varphi)$ & $\PropValuation_\PropInterpret(\varphi \liff \psi) = \PropValuation_\PropInterpret((\varphi \limp \psi) \land (\psi \limp \varphi))$ \\ \hline
+        $\True$                                  & $\True$                               & $\True$                                           & $\True$                                           & $\True$                                                                                                                              \\ \hline
+        $\True$                                  & $\False$                              & $\False$                                          & $\True$                                           & $\False$                                                                                                                             \\ \hline
+        $\False$                                 & $\True$                               & $\True$                                           & $\False$                                          & $\False$                                                                                                                             \\ \hline
+        $\False$                                 & $\False$                              & $\True$                                           & $\True$                                           & $\True$                                                                                                                              \\ \hline
+      \end{tabular}
+      \subcaption{$\varphi \liff \psi$の真理値表}
+    \end{subtable}
+    \caption{省略記号$\land, \lor, \liff$の真理値表}
+    \label{table:prop:table-and-or-iff}
   \end{table}
 
-  \begin{table}
-    \begin{tabular}{|c|c|c|c|c|c|}\hline
-      $\PropValuation_\PropInterpret(\varphi)$ & $\PropValuation_\PropInterpret(\psi)$ & $\PropValuation_\PropInterpret(\lnot\varphi)$ & $\PropValuation_\PropInterpret(\lnot\psi)$ & $\PropValuation_\PropInterpret(\lnot \varphi \lor \lnot\psi)$ & $\PropValuation_\PropInterpret(\varphi \land \psi) = \PropValuation_\PropInterpret(\lnot(\lnot\varphi \lor \lnot\psi))$ \\ \hline
-      $\True$                                  & $\True$                               & $\False$                                      & $\False$                                   & $\False$                                                      & $\True$                                                                                                                 \\ \hline
-      $\True$                                  & $\False$                              & $\False$                                      & $\True$                                    & $\True$                                                       & $\False$                                                                                                                \\ \hline
-      $\False$                                 & $\True$                               & $\True$                                       & $\False$                                   & $\True$                                                       & $\False$                                                                                                                \\ \hline
-      $\False$                                 & $\False$                              & $\True$                                       & $\True$                                    & $\True$                                                       & $\False$                                                                                                                \\ \hline
-    \end{tabular}
-  \end{table}
+\end{myCorollary}
 
-  \begin{table}
-    \begin{tabular}{|c|c|c|c|c|}\hline
-      $\PropValuation_\PropInterpret(\varphi)$ & $\PropValuation_\PropInterpret(\psi)$ & $\PropValuation_\PropInterpret(\varphi \to \psi)$ & $\PropValuation_\PropInterpret(\psi \to \varphi)$ & $\PropValuation_\PropInterpret(\varphi \liff \psi) = \PropValuation_\PropInterpret((\varphi \limp \psi) \land (\psi \limp \varphi))$ \\ \hline
-      $\True$                                  & $\True$                               & $\True$                                           & $\True$                                           & $\True$                                                                                                                              \\ \hline
-      $\True$                                  & $\False$                              & $\False$                                          & $\True$                                           & $\False$                                                                                                                             \\ \hline
-      $\False$                                 & $\True$                               & $\True$                                           & $\False$                                          & $\False$                                                                                                                             \\ \hline
-      $\False$                                 & $\False$                              & $\True$                                           & $\True$                                           & $\True$                                                                                                                              \\ \hline
-    \end{tabular}
-  \end{table}
+\begin{myDefinition}[トートロジー]
+  いかなる付値$\PropValuation_\PropInterpret$についても，
+  $\PropValuation_\PropInterpret(\varphi) = \True$であるような論理式$\varphi$をトートロジーと呼ぶ．
+  $\varphi$がトートロジーであることを，$\models \varphi$として表す．
+\end{myDefinition}
+
+\begin{myExample}[トートロジーの例]
+  例えば，論理式$p_0 \limp p_0$はトートロジーである．
+  ある解釈$\PropValuation_\PropInterpret$で
+  $\PropValuation_\PropInterpret(p_0) = \True$であれば，$\PropValuation_\PropInterpret(p_0 \to p_0) = \True$である．
+  また，$\PropValuation_\PropInterpret(p_0) = \False$であったとしても，$\PropValuation_\PropInterpret(p_0 \to p_0) = \True$である．
+\end{myExample}
+
+\begin{myCorollary}
+  \ref*{exp:prop:lukasiewicz-tauto-schema}で示した論理式の図式から構成される論理式は，
+  全てトートロジーである．
+  すなわち，任意の論理式$\varphi,\psi,\chi$について，
+  $
+    \models \AxiomSchema[1]\left[\Phi \mapsto \varphi, \Psi \mapsto \psi\right],
+    \models \AxiomSchema[2]\left[\Phi \mapsto \varphi, \Psi \mapsto \psi\right],
+    \models \AxiomSchema[3]\left[\Phi \mapsto \varphi, \Psi \mapsto \psi\right]
+  $である．
 \end{myCorollary}

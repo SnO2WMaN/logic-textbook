@@ -16,17 +16,24 @@
 \end{myRemark}
 
 \begin{myDefinition}[命題論理の記号列]
-  命題論理のアルファベット$\PropAlphabet$を，全く規則無しに1個以上並べることで構成出来る記号の列を，命題論理の記号列と呼ぶ．
-  命題論理の記号列を全て集めた加算無限個の集合は，$\PropString$と書くことにする．
+  命題論理のアルファベット$\PropAlphabet$を，ランダムに1個以上並べる
+  \footnote{$\lnot$の後に$\limp$を置いてはいけないとか，括弧$(,)$の個数を合わせなければならないとか，そういった制約を一旦全て無視する，という意味である．}
+  ことで構成出来る記号の列を，命題論理の記号列と呼ぶ．
+  % 命題論理の記号列を全て集めた加算無限個の集合は，$\PropString$と書くことにする．
 \end{myDefinition}
 
 \begin{myExample}[命題論理の記号列の例]
-  例えば，以下は命題論理の記号列である．ただし，$p_0,p_1,p_2$は命題記号とする．
-  % \begin{gather}
-  %   p_0 \\
-  %   p_0 \limp p_1 \\
-  %   p_0 \limp (p_1 \limp p_2)
-  % \end{gather}
+  \label{exp:prop:strings}
+  以下は命題論理の記号列である．ただし，$p_0,p_1,p_2$は命題記号とする．
+  \begin{gather}
+    p_0 \\
+    (\neg p_0) \\
+    \neg \\
+    (p_0 \limp p_1) \\
+    (p_0 \limp (p_1 \limp p_2)) \\
+    (\lnot(\lnot p_0)) \\
+    ()(p_0
+  \end{gather}
 \end{myExample}
 
 \begin{myDefinition}[命題論理の論理式]
@@ -37,12 +44,24 @@
     \item $(\neg \varphi)$の形をしていて，$\varphi$が論理式である．
     \item $(\varphi \limp \psi)$の形をしていて，$\varphi, \psi$が論理式である．
   \end{enumerate}
-  命題論理の論理式を全て集めた集合を$\PropFormula$と書くことにする．
+  % 命題論理の論理式を全て集めた集合を$\PropFormula$と書くことにする．
 \end{myDefinition}
 
 \begin{myExample}[命題論理の論理式の例]
-  $p_0,p_1,p_2$は命題記号とする．例えば，以下は命題論理の論理式である．
+  $p_0,p_1,p_2$は命題記号とする．
+  例えば，\ref{exp:prop:strings}で列挙した記号列のうち，以下は命題論理の論理式である．
+  \begin{gather*}
+    p_0 \\
+    (\neg p_0) \\
+    (p_0 \limp p_1) \\
+    (p_0 \limp (p_1 \limp p_2)) \\
+    (\lnot(\lnot p_0))
+  \end{gather*}
   逆に，以下は命題論理の論理式ではない．
+  \begin{gather*}
+    \neg \\
+    ()(p_0
+  \end{gather*}
 \end{myExample}
 
 \begin{myDefinition}[省略記号$\land, \lor, \liff$]
@@ -50,9 +69,9 @@
   $\varphi, \psi$は論理式とする．
   記号$\land, \lor, \liff$を省略記法として以下のように定義する．
   \begin{enumerate}
-    \item $(\varphi \lor \psi)$は$\lnot\varphi \limp \psi$と定義する．
-    \item $(\varphi \land \psi)$は$\lnot(\lnot\varphi \lor \lnot\psi)$と定義する．
-    \item $(\varphi \liff \psi)$は$(\varphi \limp \psi) \land (\psi \limp \varphi)$と定義する．
+    \item $\varphi \lor \psi$は$\lnot\varphi \limp \psi$と読み替える．
+    \item $\varphi \land \psi$は$\lnot(\lnot\varphi \lor \lnot\psi)$と読み替える．
+    \item $\varphi \liff \psi$は$(\varphi \limp \psi) \land (\psi \limp \varphi)$と読み替える．
   \end{enumerate}
 \end{myDefinition}
 
@@ -74,5 +93,49 @@
     \item $\varphi \lor \psi \equiv \lnot\varphi \limp \psi$．
     \item $\varphi \land \psi \equiv \lnot(\lnot\varphi \lor \lnot\psi) \equiv \lnot(\lnot\lnot\varphi \limp \lnot\psi)$．
     \item $\varphi \liff \psi \equiv (\varphi \limp \psi) \land (\psi \limp \varphi) \equiv \lnot(\lnot\lnot(\varphi \limp \psi) \limp \lnot(\psi \limp \varphi))$．
+  \end{enumerate}
+\end{myExample}
+
+\begin{myExample}
+  \label{exp:prop:lukasiewicz-tauto}
+  次の形の記号列は，$\varphi,\psi,\chi$の部分が論理式であるとき，そのときに限り，論理式である．
+  \begin{enumerate}
+    \item $\varphi \limp (\psi \limp \varphi)$
+    \item $(\varphi \limp (\psi \limp \chi)) \limp ((\varphi \limp \psi) \limp (\varphi \limp \chi))$
+    \item $(\lnot \varphi \limp \lnot \psi) \limp (\psi \limp \varphi)$
+  \end{enumerate}
+\end{myExample}
+
+\begin{myRemark}
+  あくまでも，\ref*{exp:prop:lukasiewicz-tauto}は論理式になりうる記号列の形を示しているだけで，常に論理式であるとは限らない．
+  例えば，$\lnot \limp (p_0 \limp \lnot)$は確かに形を満たしているが，論理式ではない．
+\end{myRemark}
+
+\begin{myDefinition}[論理式の図式]
+  $\Phi,\Psi$を適当な論理式で置き換えることで論理式が構成できる記号列の形を，論理式の図式と呼ぶ．
+\end{myDefinition}
+
+\begin{myRemark}
+  論理式の図式は，$\Phi,\Psi$というメタ的な記号，すなわち，$\PropAlphabet$には含まれない記号を用いている．
+  よって，図式は命題論理の記号列ではない．
+\end{myRemark}
+
+\begin{myDefinition}[図式からの論理式の生成]
+  $\Phi,\Psi$を持つ論理式の図式$\mathbf{S}$について，
+  その$\Phi$を論理式$\varphi$で，$\Psi$を論理式$\psi$で置き換えることで構成される論理式を，
+  $\mathbf{S}\left[\Phi \mapsto \varphi, \Psi \mapsto \psi\right]$と書くことにする．
+\end{myDefinition}
+
+\begin{myRemark}
+  論理式が加算無限個であるため，論理式の図式から構成される論理式は当然，加算無限個存在する．
+\end{myRemark}
+
+\begin{myExample}
+  \label{exp:prop:lukasiewicz-tauto-schema}
+  例えば，\ref*{exp:prop:lukasiewicz-tauto}を論理式の図式$\AxiomSchema[1],\AxiomSchema[2],\AxiomSchema[3]$として書き直すと，以下のようになる．
+  \begin{enumerate}
+    \item $\AxiomSchema[1]$は$\Phi \limp (\Psi \limp \Phi)$
+          % \item $\AxiomSchema[2]$は$(\Phi \limp (\Psi \limp \Chi)) \limp ((\Phi \limp \Psi) \limp (\Phi \limp \Chi))$
+    \item $\AxiomSchema[3]$は$(\lnot \Phi \limp \lnot \Psi) \limp (\Psi \limp \Phi)$
   \end{enumerate}
 \end{myExample}
