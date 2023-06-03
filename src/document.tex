@@ -2,6 +2,7 @@
 
 \usepackage{my-preamble}
 \usepackage{comment}
+\usepackage{subfiles}
 
 \title{\myTitle}
 \author{\myAuthor}
@@ -12,77 +13,7 @@
 
 \section{命題論理}
 
-\subsection{構文論}
-
-\begin{myDefinition}[命題論理のアルファベット$\PropAlphabet$]
-  命題論理のアルファベット$\PropAlphabet$を以下のように定める．
-  \begin{enumerate}
-    \item 加算無限個の命題記号$p_0,p_1,p_2,\dots$
-    \item 否定記号，$\neg$
-    \item 含意記号，$\limp$
-    \item 括弧$($と$)$
-  \end{enumerate}
-\end{myDefinition}
-
-\begin{myRemark}
-  なぜ命題記号，否定記号，含意記号と呼ぶかは，意味論の節の\ref{def:prop:sugar-sytnax}で説明する．
-  逆に言えば，構文論的には$p_0,p_1,p_2,\dots$や$\neg,\limp$には命題や否定や含意といった意味は無い．
-\end{myRemark}
-
-\begin{myDefinition}[命題論理の記号列]
-  命題論理のアルファベット$\PropAlphabet$を，全く規則無しに1個以上並べることで構成出来る記号の列を，命題論理の記号列と呼ぶ．
-  命題論理の記号列を全て集めた加算無限個の集合は，$\PropString$と書くことにする．
-\end{myDefinition}
-
-\begin{myExample}[命題論理の記号列の例]
-  例えば，以下は命題論理の記号列である．ただし，$p_0,p_1,p_2$は命題記号とする．
-  % \begin{gather}
-  %   p_0 \\
-  %   p_0 \limp p_1 \\
-  %   p_0 \limp (p_1 \limp p_2)
-  % \end{gather}
-\end{myExample}
-
-\begin{myDefinition}[命題論理の論理式]
-  記号列が以下の条件に従って構成されているかを再帰的に確かめる．条件を満たしているとき，その記号列は命題論理の論理式と呼ばれる．
-  \begin{enumerate}
-    \item 命題記号が1つだけ並んだ形をしている．
-    \item $(\neg \varphi)$の形をしていて，$\varphi$が論理式である．
-    \item $(\varphi \limp \psi)$の形をしていて，$\varphi, \psi$が論理式である．
-  \end{enumerate}
-  命題論理の論理式を全て集めた集合を$\PropFormula$と書くことにする．
-\end{myDefinition}
-
-\begin{myExample}[命題論理の論理式の例]
-  $p_0,p_1,p_2$は命題記号とする．例えば，以下は命題論理の論理式である．
-  逆に，以下は命題論理の論理式ではない．
-\end{myExample}
-
-\begin{myDefinition}[省略記号$\land, \lor, \liff$]
-  \label{def:prop:sugar-sytnax}
-  $\varphi, \psi$は論理式とする．
-  記号$\land, \lor, \liff$を省略記法として以下のように定義する．
-  \begin{enumerate}
-    \item $(\varphi \lor \psi)$は$\lnot\varphi \limp \psi$と定義する．
-    \item $(\varphi \land \psi)$は$\lnot(\lnot\varphi \lor \lnot\psi)$と定義する．
-    \item $(\varphi \liff \psi)$は$(\varphi \limp \psi) \land (\psi \limp \varphi)$と定義する．
-  \end{enumerate}
-\end{myDefinition}
-
-\begin{myDefinition}[括弧の省略]
-  \label{def:prop:rmparen}
-\end{myDefinition}
-
-\begin{myDefinition}[構文論的同値]
-  $\sigma_1,\sigma_2$は命題論理の記号列とする．
-  $\sigma_1,\sigma_2$について，\ref*{def:prop:sugar-sytnax}と\ref*{def:prop:rmparen}の省略を全て元に戻した記号列が等しいとき，
-  $\sigma_1$と$\sigma_2$は構文論的に同値であるといい，
-  $\sigma_1 \equiv \sigma_2$と書くことにする．
-\end{myDefinition}
-
-\begin{myExample}[構文論的同値の例]
-  $\varphi, \psi$は論理式とする．例えば，以下は構文論的に同値である．
-\end{myExample}
+\subfile{./proplogic-syntax.tex}
 
 \subsection{意味論}
 
