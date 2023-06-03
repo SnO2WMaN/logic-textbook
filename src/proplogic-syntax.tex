@@ -30,6 +30,7 @@
 \end{myExample}
 
 \begin{myDefinition}[命題論理の論理式]
+  \label{def:prop:formulae}
   記号列が以下の条件に従って構成されているかを再帰的に確かめる．条件を満たしているとき，その記号列は命題論理の論理式と呼ばれる．
   \begin{enumerate}
     \item 命題記号が1つだけ並んだ形をしている．
@@ -67,5 +68,11 @@
 \end{myDefinition}
 
 \begin{myExample}[構文論的同値の例]
+  \label{exp:prop:syntax-equiv}
   $\varphi, \psi$は論理式とする．例えば，以下は構文論的に同値である．
+  \begin{enumerate}
+    \item $\varphi \lor \psi \equiv \lnot\varphi \limp \psi$．
+    \item $\varphi \land \psi \equiv \lnot(\lnot\varphi \lor \lnot\psi) \equiv \lnot(\lnot\lnot\varphi \limp \lnot\psi)$．
+    \item $\varphi \liff \psi \equiv (\varphi \limp \psi) \land (\psi \limp \varphi) \equiv \lnot(\lnot\lnot(\varphi \limp \psi) \limp \lnot(\psi \limp \varphi))$．
+  \end{enumerate}
 \end{myExample}

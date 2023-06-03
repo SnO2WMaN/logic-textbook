@@ -1,0 +1,140 @@
+\subsection{意味論}
+
+\begin{myDefinition}[命題記号の解釈と真理値]
+  \label{def:prop:interpret-props}
+  命題記号の解釈と真理値を以下のように定める．
+  \begin{enumerate}
+    \item 命題記号$p_n$を，正しいか誤っているかのどちらかを判断できるような命題へと解釈する写像を，単に解釈と読んで，$\PropInterpret$で表す．
+    \item $\PropInterpret$で解釈された命題を，$\PropInterpret(p_n)$として表す．
+    \item 命題$\PropInterpret(p_n)$が正しいとき，命題は真と呼び，$\PropInterpret(p_n) = \True$と表す．
+    \item 命題$\PropInterpret(p_n)$が誤っているとき，命題は偽と呼び，$\PropInterpret(p_n) = \False$と表す．
+  \end{enumerate}
+\end{myDefinition}
+
+\begin{myExample}
+  \label{def:prop:interpret-weather}
+  解釈$\PropInterpret$は，命題記号$p_0$を「2023年6月3日の東京では雨が降った」という文に解釈するとする．
+  すなわち，$\PropInterpret(p_0) =$である．
+
+  このとき，この命題の真偽は，実際に2023年6月3日の東京では雨が降ったかどうかを確かめることで判断できる．
+  この命題は真である\footnote{text}
+  ため，$\PropInterpret(p_0) = \True$である．
+\end{myExample}
+
+\begin{myExample}
+  \label{def:prop:leapyear}
+  \ref{def:prop:interpret-weather}とは別の解釈$\PropInterpret'$では，命題記号$p_0$を「2023年はうるう年である」という文に解釈するとする．
+  すなわち，$\PropInterpret'(p_0) =$である．
+
+  このとき，この命題の真偽は，うるう年の定義を調べることで判断できる．
+  うるう年は，西暦年が「4の倍数であり，かつ，100の倍数でない」または「400の倍数である」であるときである．
+  2023は4の倍数でもなければ，400の倍数でもないので，2023年はうるう年ではない．
+  すなわち，この命題は偽であり，$\PropInterpret'(p_0) = \False$である．
+\end{myExample}
+
+\begin{myDefinition}[付値関数]
+  \label{def:prop:valuation}
+  論理式についての真理値を以下のように定める．
+  \begin{enumerate}
+    \item ある解釈$\PropInterpret$の上で命題論理の論理式に$\True$または$\False$を割り当てる写像を，
+          $\PropInterpret$の付値と呼び，$\PropValuation_\PropInterpret$で表す．
+    \item 付値$\PropValuation_\PropInterpret$によって論理式$\varphi$に割り当てられる$\True,\False$を，
+          $\PropValuation_\PropInterpret$での$\varphi$の真理値と呼ぶ．
+          % \item ある付値$\PropValuation_\PropInterpret$が，
+          %       論理式$\varphi$に真を割り当てるとき，$\PropValuation_\PropInterpret(\varphi) = \True$と書く．
+          % \item ある付値$\PropValuation_\PropInterpret$が，
+          %       論理式$\varphi$に偽を割り当てるとき，$\PropValuation_\PropInterpret(\varphi) = \False$と書く．
+    \item 付値$\PropValuation_\PropInterpret$は論理式の定義\ref*{def:prop:formulae}に従って，再帰的に定義される．
+          \begin{enumerate}
+            \item $\PropValuation_\PropInterpret(p_n) = \PropInterpret(p)$と定義する．
+            \item $\varphi$は論理式とする．
+                  $\PropValuation_\PropInterpret(\varphi) = \True$のとき，そのときに限り，
+                  $\PropValuation_\PropInterpret(\neg \varphi) = \False$と定義する．
+                  そうでないとき，
+                  $\PropValuation_\PropInterpret(\neg \varphi) = \True$と定義する．
+            \item $\varphi,\psi$は論理式とする．
+                  $\PropValuation_\PropInterpret(\varphi) = \True$かつ$\PropValuation_\PropInterpret(\psi) = \False$のとき，そのときに限り，
+                  $\PropValuation_\PropInterpret(\varphi \limp \psi) = \False$と定義する．
+                  それ以外のとき，
+                  $\PropValuation_\PropInterpret(\varphi \limp \psi) = \True$と定義する．
+          \end{enumerate}
+  \end{enumerate}
+\end{myDefinition}
+
+\begin{myRemark}[真理値表]
+  $\varphi, \psi$は論理式とし，$\PropValuation_\PropInterpret$は付値とする．
+  $\lnot \varphi$と$\varphi \to \psi$の$\PropValuation_\PropInterpret$の真偽を割り当てを，
+  表にしてまとめてみると，以下のようになる．
+  \begin{table}
+    \begin{tabular}{|c|c|}\hline
+      $\PropValuation_\PropInterpret(\varphi)$ & $\PropValuation_\PropInterpret(\lnot\varphi)$ \\ \hline
+      $\True$                                  & $\False$                                      \\ \hline
+      $\False$                                 & $\True$                                       \\ \hline
+    \end{tabular}
+  \end{table}
+  \begin{table}
+    \begin{tabular}{|c|c|c|}\hline
+      $\PropValuation_\PropInterpret(\varphi)$ & $\PropValuation_\PropInterpret(\psi)$ & $\PropValuation_\PropInterpret(\varphi \limp \psi)$ \\ \hline
+      $\True$                                  & $\True$                               & $\True$                                             \\ \hline
+      $\True$                                  & $\False$                              & $\False$                                            \\ \hline
+      $\False$                                 & $\True$                               & $\True$                                             \\ \hline
+      $\False$                                 & $\False$                              & $\True$                                             \\ \hline
+    \end{tabular}
+  \end{table}
+\end{myRemark}
+
+\begin{myRemark}[構文論的同値と真理値]
+  \label{rmk:prop:syntax-equiv-truth}
+  $\varphi, \psi$は論理式とし，$\PropValuation_\PropInterpret$は付値とする．
+  $\varphi,\psi$が構文論的に同値であるなら，
+  $\PropValuation_\PropInterpret$での真理値も一致する．
+  すなわち，$\varphi \equiv \psi$ならば
+  $\PropValuation_\PropInterpret(\varphi) = \PropValuation_\PropInterpret(\psi)$である．
+  逆に，真理値が一致しているからといって，構文論的に同値であるとは限らない．
+  すなわち，$\PropValuation_\PropInterpret(\varphi) = \PropValuation_\PropInterpret(\psi)$ならば
+  $\varphi \equiv \psi$であるとは限らない．
+\end{myRemark}
+
+\begin{myCorollary}[省略記号$\land, \lor, \liff$の真理値]
+  \label{cor:prop:valuation-sugar-syntax}
+  $\varphi, \psi$は論理式とし，$\PropValuation_\PropInterpret$は付値とする．
+  \ref{def:prop:sugar-sytnax}で導入した省略記号$\land, \lor, \liff$を展開した論理式は，
+  \ref{exp:prop:syntax-equiv}で示した．
+  \ref*{rmk:prop:syntax-equiv-truth}より，展開前と展開後の論理式の真理値は一致しなければならない．
+  すなわち，次が成り立つ．
+  \begin{enumerate}
+    \item $\PropValuation_\PropInterpret(\varphi \lor \psi) = \PropValuation_\PropInterpret(\lnot \varphi \limp \psi)$
+    \item $\PropValuation_\PropInterpret(\varphi \land \psi) = \PropValuation_\PropInterpret(\lnot(\lnot\varphi \lor \lnot\psi))$
+    \item $\PropValuation_\PropInterpret(\varphi \liff \psi) = \PropValuation_\PropInterpret((\varphi \limp \psi) \land (\psi \limp \varphi))$
+  \end{enumerate}
+  これを，真理値表にまとめると以下のようになる．
+  \begin{table}
+    \begin{tabular}{|c|c|c|c|}\hline
+      $\PropValuation_\PropInterpret(\varphi)$ & $\PropValuation_\PropInterpret(\psi)$ & $\PropValuation_\PropInterpret(\lnot\varphi)$ & $\PropValuation_\PropInterpret(\varphi \lor \psi) = \PropValuation_\PropInterpret(\lnot \varphi \limp \psi)$ \\ \hline
+      $\True$                                  & $\True$                               & $\False$                                      & $\True$                                                                                                      \\ \hline
+      $\True$                                  & $\False$                              & $\False$                                      & $\True$                                                                                                      \\ \hline
+      $\False$                                 & $\True$                               & $\True$                                       & $\True$                                                                                                      \\ \hline
+      $\False$                                 & $\False$                              & $\True$                                       & $\False$                                                                                                     \\ \hline
+    \end{tabular}
+  \end{table}
+
+  \begin{table}
+    \begin{tabular}{|c|c|c|c|c|c|}\hline
+      $\PropValuation_\PropInterpret(\varphi)$ & $\PropValuation_\PropInterpret(\psi)$ & $\PropValuation_\PropInterpret(\lnot\varphi)$ & $\PropValuation_\PropInterpret(\lnot\psi)$ & $\PropValuation_\PropInterpret(\lnot \varphi \lor \lnot\psi)$ & $\PropValuation_\PropInterpret(\varphi \land \psi) = \PropValuation_\PropInterpret(\lnot(\lnot\varphi \lor \lnot\psi))$ \\ \hline
+      $\True$                                  & $\True$                               & $\False$                                      & $\False$                                   & $\False$                                                      & $\True$                                                                                                                 \\ \hline
+      $\True$                                  & $\False$                              & $\False$                                      & $\True$                                    & $\True$                                                       & $\False$                                                                                                                \\ \hline
+      $\False$                                 & $\True$                               & $\True$                                       & $\False$                                   & $\True$                                                       & $\False$                                                                                                                \\ \hline
+      $\False$                                 & $\False$                              & $\True$                                       & $\True$                                    & $\True$                                                       & $\False$                                                                                                                \\ \hline
+    \end{tabular}
+  \end{table}
+
+  \begin{table}
+    \begin{tabular}{|c|c|c|c|c|}\hline
+      $\PropValuation_\PropInterpret(\varphi)$ & $\PropValuation_\PropInterpret(\psi)$ & $\PropValuation_\PropInterpret(\varphi \to \psi)$ & $\PropValuation_\PropInterpret(\psi \to \varphi)$ & $\PropValuation_\PropInterpret(\varphi \liff \psi) = \PropValuation_\PropInterpret((\varphi \limp \psi) \land (\psi \limp \varphi))$ \\ \hline
+      $\True$                                  & $\True$                               & $\True$                                           & $\True$                                           & $\True$                                                                                                                              \\ \hline
+      $\True$                                  & $\False$                              & $\False$                                          & $\True$                                           & $\False$                                                                                                                             \\ \hline
+      $\False$                                 & $\True$                               & $\True$                                           & $\False$                                          & $\False$                                                                                                                             \\ \hline
+      $\False$                                 & $\False$                              & $\True$                                           & $\True$                                           & $\True$                                                                                                                              \\ \hline
+    \end{tabular}
+  \end{table}
+\end{myCorollary}
