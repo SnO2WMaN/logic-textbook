@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "arrterian.nix-env-selector",
+    "editorconfig.editorconfig",
+    "jnoortheen.nix-ide",
+    "mkhl.direnv",
+    "tamasfe.even-better-toml",
+    "James-Yu.latex-workshop",
+    "tomoki1207.pdf"
+  ]
+}
