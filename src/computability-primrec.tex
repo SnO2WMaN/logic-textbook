@@ -1,0 +1,450 @@
+\subsection{原始再帰}
+
+\newcommand{\syn}[1]{\mathtt{#1}}
+\newcommand{\synZ}{\syn{z}}
+\newcommand{\synS}{\syn{s}}
+\newcommand{\synNat}{\syn{N}}
+
+
+\begin{myDefinition}[形式的な自然数]
+  記号$\synZ,\synS$による記号列が自然数であるとは，以下のように再帰的に定義される．
+  \begin{enumerate}
+    \item 記号列$\synZ$は自然数である．
+    \item $n$が自然数ならば，記号列$\synS n$も自然数である．
+  \end{enumerate}
+\end{myDefinition}
+
+\begin{myDefinition}[形式的な自然数の全ての集合]
+  自然数である記号列を全て集めた集合を$\synNat$と書くことにする．
+  すなわち，$\synNat \defeq \{ \synZ, \synS\synZ, \synS\synS\synZ,\dots\}$である．
+\end{myDefinition}
+
+\begin{myDefinition}[形式的な自然数の略記]
+  自然数である記号列が$\synS$を$n$個含むとき，$\syn{n}$と略記する．
+  例えば，以下のように略記する．
+  \begin{enumerate}
+    \item 記号列$\synZ$を$\syn{0}$と書くことにする．
+    \item 記号列$\synS \syn{0}$を$\syn{1}$と書くことにする．すなわち$\syn{1}$とは$\synS \synZ$である．
+    \item 記号列$\synS \syn{1}$を$\syn{2}$と書くことにする．すなわち$\syn{2}$とは$\synS \synS \synZ$である．
+    \item 記号列$\synS \syn{2}$を$\syn{3}$と書くことにする．すなわち$\syn{3}$とは$\synS \synS \synS \synZ$である．
+  \end{enumerate}
+\end{myDefinition}
+
+\newcommand{\cfun}[1]{\mathsf{#1}}
+\begin{myDefinition}[関数]
+  $n$個の形式的な自然数$\syn{x}_0,\syn{x}_1,\dots,\syn{x}_{n-1}$を入力として受け取り，
+  1つの形式的な自然数$\syn{y}$を出力するシステムを，
+  関数と呼び，$\cfun{f}:\synNat^n \to \synNat$と表す．
+
+  関数$\cfun{f}:\synNat^n \to \synNat$に
+  $\syn{x}_0,\dots,\syn{x}_{n-1}$を入力として与えると
+  $\syn{y}$が出力されることを，
+  $\cfun{f}(\syn{x}_0,\dots,\syn{x}_{n-1}) = \syn{y}$と書く．
+  $\syn{x}_0,\dots,\syn{x}_{n-1}$が自明であるなら，
+  $\cfun{f}(\vec{\syn{x}}) = \syn{y}$と略記する．
+\end{myDefinition}
+
+\newcommand{\cconst}[2]{\cfun{const}^{#1}_{\syn{#2}}}
+\begin{myDefinition}[定数関数]
+  $n$個の入力$\vec{\syn{x}}$を受け取るが，それらを全て破棄して
+  定数$\syn{c}$を出力とする関数$\cconst{n}{c}:\synNat^n \to \synNat$を$n$変数定数関数と呼ぶ．
+  すなわち，
+  \begin{equation*}
+    \cconst{n}{c}(\vec{\syn{x}}) \defeq \syn{c}
+  \end{equation*}
+  である．
+\end{myDefinition}
+
+\newcommand{\csucc}{\cfun{succ}}
+\begin{myDefinition}[後者関数]
+  次の関数$\csucc:\synNat \to \synNat$は後者関数と呼ぶ．
+  \begin{equation*}
+    \csucc(\syn{x}) \defeq \synS \syn{x}
+  \end{equation*}
+\end{myDefinition}
+
+
+\newcommand{\cproj}[2]{\cfun{proj}^{#1}_{#2}}
+\begin{myDefinition}[射影関数]
+  $n$個の入力$\syn{x}_0,\dots,\syn{x}_{n-1}$を受け取り，そのうち指定した1つの入力$\syn{x}_i$を返す
+  関数$\cproj{n}{i}:\synNat^n \to \synNat$を射影関数と呼ぶ．ただし，$0 \leq i \leq n$．
+  すなわち，
+  \begin{equation*}
+    \cproj{n}{i}(\syn{x}_0,\dots,\syn{x}_{n-1}) \defeq \syn{x}_i
+  \end{equation*}
+  である．
+\end{myDefinition}
+
+\newcommand{\ccomp}[1]{\cfun{comp}_{#1}}
+\begin{myDefinition}[関数合成]
+  $m$個の関数$\cfun{f}_1,\dots,\cfun{f}_m:\synNat^n \to \synNat$と
+  関数$g:\synNat^m \to \synNat$があるとき，
+  関数$\ccomp{\cfun{f}_1,\dots,\cfun{f}_m,\cfun{g}}:\synNat^n \to \synNat$を以下のように定義する．
+  \begin{align*}
+    \ccomp{\cfun{f}_1,\dots,\cfun{f}_m,\cfun{g}}(\vec{\syn{x}}) \defeq \cfun{g}( \cfun{f}_1(\vec{\syn{x}}), \dots, \cfun{f}_m(\vec{\syn{x}}))
+  \end{align*}
+  $\ccomp{\cfun{f}_1,\dots,\cfun{f}_m,\cfun{g}}$は関数$\cfun{f}_1,\dots,\cfun{f}_m,\cfun{g}$の合成と呼ばれる．
+\end{myDefinition}
+
+\newcommand{\cprec}[1]{\cfun{prec}_{#1}}
+\begin{myDefinition}[原始再帰]
+  関数$\cfun{f}:\synNat^n \to \synNat$と
+  関数$\cfun{f}:\synNat^{n+2} \to \synNat$があるとき，
+  関数$\cprec{\cfun{f},\cfun{g}}:\synNat^{n+1} \to \synNat$を以下のように定義する．
+  \begin{align*}
+    \cprec{\cfun{f},\cfun{g}}(\vec{\syn{x}},\syn{0})           & \defeq \cfun{f}(\vec{\syn{x}})                                                                  \\
+    \cprec{\cfun{f},\cfun{g}}(\vec{\syn{x}},\synS \syn{x}_{n}) & \defeq \cfun{g}(\vec{\syn{x}},\syn{x}_{n},\cprec{\cfun{f},\cfun{g}}(\vec{\syn{x}},\syn{x}_{n}))
+  \end{align*}
+  $\cprec{\cfun{f},\cfun{g}}$は関数$\cfun{f},\cfun{g}$の原始再帰と呼ばれる．
+\end{myDefinition}
+
+\begin{myDefinition}[原始再帰関数]
+  原始再帰関数を以下のように定義する．
+  \begin{enumerate}
+    \item $n$変数定数関数$\cconst{n}{c}$は原始再帰関数である．
+    \item 後者関数$\csucc$は原始再帰関数である．
+    \item 射影関数$\cproj{n}{i}$は原始再帰関数である．
+    \item 関数$\cfun{f}_1,\dots,\cfun{f}_m:\synNat^n \to \synNat$と関数$g:\synNat^m \to \synNat$が原始再帰関数であるとき，
+          $\cfun{f}_1,\dots,\cfun{f}_n,\cfun{g}$の合成$\ccomp{\cfun{f}_1,\dots,\cfun{f}_m,\cfun{g}}:\synNat^n \to \synNat$は原始再帰関数．
+    \item 関数$\cfun{f}:\synNat^n \to \synNat$と関数$g:\synNat^{n+2} \to \synNat$が原始再帰関数であるとき，
+          $\cfun{f},\cfun{g}$の原始再帰$\cprec{\cfun{f},\cfun{g}}:\synNat^{n+1} \to \synNat$は原始再帰関数．
+  \end{enumerate}
+\end{myDefinition}
+
+\newcommand{\czero}[1]{\cfun{zero}^{#1}}
+\begin{myDefinition}[ゼロ関数$\czero{n}$]
+  $\czero{n}:\synNat^n \to \synNat$を以下のように定義する．
+  \begin{equation*}
+    \czero{n} \defeq \cconst{n}{0}
+  \end{equation*}
+  すなわち，任意の入力$\vec{\syn{x}}$に対して$\czero{n}(\vec{\syn{x}}) = \syn{0}$である．
+\end{myDefinition}
+
+\newcommand{\cadd}{\cfun{add}}
+\begin{myDefinition}[加算$\cadd$]
+  $\cadd:\synNat^2 \to \synNat$を以下のように定義する．
+  \begin{equation*}
+    \cadd \defeq \cprec{\cproj{2}{0},\ccomp{\cproj{3}{2},\csucc}}
+  \end{equation*}
+  また，$\cadd(\syn{x}_0,\syn{x}_1)$を$\syn{x}_0 + \syn{x}_1$と略記する．
+\end{myDefinition}
+
+\begin{myRemark}
+  定義に従って$\cadd$を簡単な形に展開すると以下のようになる．
+  \begin{align*}
+    \cadd(\syn{x}_0,\syn{0}) & \Rightarrow \cproj{2}{0}(\syn{x}_0,\syn{0}) \\
+                             & \Rightarrow \syn{x}_0
+  \end{align*}
+  \begin{align*}
+    \cadd\syn{x}_0,\synS \syn{x}_1) & \Rightarrow \csucc(\cproj{3}{2}(\syn{x}_0,\syn{x}_1,\cadd(\syn{x}_0,\syn{x}_1))) \\
+                                    & \Rightarrow \csucc(\cadd(\syn{x}_0,\syn{x}_1))
+  \end{align*}
+\end{myRemark}
+
+\newcommand{\cmul}{\cfun{mul}}
+\begin{myDefinition}[乗算$\cmul$]
+  $\cmul:\synNat^2 \to \synNat$を以下のように定義する．
+  \begin{equation*}
+    \cmul \defeq \cprec{\czero{2},\ccomp{\cproj{3}{0},\cproj{3}{2},\cadd}}
+  \end{equation*}
+  また，$\cmul(\syn{x}_0,\syn{x}_1)$を$\syn{x}_0 \times \syn{x}_1$と略記する．
+\end{myDefinition}
+
+\begin{myRemark}
+  定義に従って$\cmul$を簡単な形に展開すると以下のようになる．
+  \begin{align*}
+    \cmul(\syn{x}_0,\syn{0}) & \Rightarrow \czero{2}(\syn{x}_0,\syn{0}) \\
+                             & \Rightarrow \syn{0}
+  \end{align*}
+  \begin{align*}
+    \cmul(\syn{x}_0,\synS \syn{x}_1) & \Rightarrow \cadd(\cproj{3}{0}(\syn{x}_0,\syn{x}_1,\cmul(\syn{x}_0,\syn{x}_1)),\cproj{3}{2}(\syn{x}_0,\syn{x}_1,\cmul(\syn{x}_0,\syn{x}_1))) \\
+                                     & \Rightarrow \cadd(\syn{x}_0,\cmul(\syn{x}_0,\syn{x}_1))
+  \end{align*}
+\end{myRemark}
+
+\newcommand{\cpred}{\cfun{pred}}
+\begin{myDefinition}[前者減算$\cpred$]
+  $\cpred:\synNat^2 \to \synNat$を以下のように定義する．
+  \begin{equation*}
+    \cpred \defeq \cprec{\czero{2},\cproj{3}{1}}
+  \end{equation*}
+\end{myDefinition}
+
+\newcommand{\cmsub}{\cfun{msub}}
+\begin{myDefinition}[補正付き減算$\cmsub$]
+  $\cmsub:\synNat^2 \to \synNat$を以下のように定義する．
+  \begin{equation*}
+    \cmsub \defeq \cprec{\cproj{2}{0},\ccomp{\cproj{3}{0},\cpred}}
+  \end{equation*}
+  また，$\cmsub(\syn{x}_0,\syn{x}_1)$を$\syn{x}_0 \ominus \syn{x}_1$と略記する．
+\end{myDefinition}
+
+\newcommand{\cispos}{\cfun{pos?}}
+\begin{myDefinition}[正数判定$\cispos$]
+  $\cispos:\synNat \to \synNat$を以下のように定義する．
+  \begin{equation*}
+    \cispos \defeq \cprec{\czero{1},\cconst{2}{1}}
+  \end{equation*}
+\end{myDefinition}
+
+\newcommand{\ciszero}{\cfun{zero?}}
+\begin{myDefinition}[ゼロ判定$\ciszero$]
+  $\ciszero:\synNat \to \synNat$を以下のように定義する．
+  \begin{equation*}
+    \ciszero \defeq \cprec{\cconst{1}{1},\czero{2}}
+  \end{equation*}
+\end{myDefinition}
+
+\newcommand{\cswap}[1]{\cfun{swap}_{\cfun{#1}}}
+\begin{myDefinition}[引数取り替え$\cswap{f}$]
+  $\cfun{f}:\synNat^2 \to \synNat$に対し，
+  $\cswap{f}:\synNat^2 \to \synNat$を以下のように定義する．
+  \begin{equation*}
+    \cswap{f} \defeq \ccomp{\cproj{2}{1},\cproj{2}{0},\cfun{f}}
+  \end{equation*}
+\end{myDefinition}
+
+\begin{myRemark}
+  \label{remark:comp-swap}
+  例えば，$\cadd$に対しての引数取り換え$\cswap{\cadd}$を展開すると，
+  \begin{align*}
+    \cswap{\cadd}(\syn{x}_0,\syn{x}_1)
+     & \Rightarrow \ccomp{\cproj{2}{1},\cproj{2}{0},\cadd}(\syn{x}_0,\syn{x}_1)               \\
+     & \Rightarrow \cadd(\cproj{2}{1}(\syn{x}_0,\syn{x}_1),\cproj{2}{0}(\syn{x}_0,\syn{x}_1)) \\
+     & \Rightarrow \cadd(\syn{x}_1,\syn{x}_0)                                                 \\
+  \end{align*}
+  となる．
+  この関数により，任意の2項演算，例えば加算$\cadd$，乗算$\cmul$，補正付き減算$\cmsub$の引数
+  を取り替えた関数を定義することができる．
+\end{myRemark}
+
+\begin{myTheorem}
+  加算$\cadd$，乗算$\cmul$，
+  前者関数$\cpred$，
+  補正付き減算$\cmsub$，
+  正数判定$\cispos$，ゼロ判定$\cispos$，
+  引数取り替え$\cswap{f}$
+  は原始再帰関数である．
+\end{myTheorem}
+
+\begin{myDefinition}[特性関数]
+  関係$\syn{R} \subseteq \synNat^n$について，
+  $\chi_{\syn{R}}:\synNat^n \to \synNat$が以下を満たすとき，
+  $\chi_{\syn{R}}$を$\syn{R}$の特性関数と呼ぶ．
+  \begin{equation*}
+    \chi_{\syn{R}}(\vec{\syn{x}}) \defeq
+    \begin{cases}
+      \syn{1} & \text{if } \vec{\syn{x}} \in \syn{R} \\
+      \syn{0} & \text{otherwise}
+    \end{cases}
+  \end{equation*}
+\end{myDefinition}
+
+\begin{myDefinition}[原始再帰的関係]
+  関係$\syn{R} \subseteq \synNat^n$の特性関数$\chi_{\syn{R}}$が原始再帰関数であるとき，
+  $\syn{R}$は原始再帰的な関係であるという．
+  特に$n=1$のとき，$\syn{R} \subseteq \synNat$は原始再帰的な集合であるという．
+\end{myDefinition}
+
+\begin{myTheorem}[等値関係]
+  \label{thm:eq-prim-rec}
+  「自然数$\syn{x}_0$と$\syn{x}_1$が同じ個数の$\synS$を持っている」
+  という関係$\syn{Eq} \subseteq \synNat^2$は原始再帰的である．
+  以下，$(\syn{x}_0,\syn{x}_1) \in \syn{Eq}$を$\syn{x}_0 = \syn{x}_1$と表す．
+  $\syn{x}_0 = \syn{x}_1$は等値関係と呼ぶ．
+\end{myTheorem}
+\begin{myProof}[\ref{thm:eq-prim-rec}]
+  $\syn{Eq}$の特性関数$\chi_{\syn{Eq}}$を以下のように定義すると要件を満たし，原始再帰的関数である．
+  \begin{equation*}
+    \chi_{\syn{Eq}}(\syn{x}_0,\syn{x}_1) \defeq
+    \ciszero((\syn{x}_0 \ominus \syn{x}_1) + (\syn{x}_1 \ominus \syn{x}_0))
+  \end{equation*}
+  ここで，$\syn{x}_1 \ominus \syn{x}_0$は$\cswap{\cmsub}$から構成されることを\ref*{remark:comp-swap}で注意した．
+\end{myProof}
+
+\begin{myTheorem}[大小関係]
+  \label{thm:lt-prim-rec}
+  「自然数$\syn{x}_1$は$\syn{x}_0$より多くの個数の$\synS$を持っている」
+  あるいは
+  「自然数$\syn{x}_0$は$\syn{x}_1$より少ない個数の$\synS$を持っている」
+  という関係$\syn{Lt} \subseteq \synNat^2$は原始再帰的である．
+  以下，$(\syn{x}_0,\syn{x}_1) \in \syn{Lt}$を$\syn{x}_0 < \syn{x}_1$と表す．
+  $\syn{x}_0 < \syn{x}_1$は大小関係と呼ぶ．
+\end{myTheorem}
+\begin{myProof}[\ref{thm:eq-prim-rec}]
+  $\syn{Lt}$の特性関数$\chi_{\syn{Lt}}$を以下のように定義すると要件を満たし，原始再帰的関数である．
+  \begin{equation*}
+    \chi_{\syn{Lt}}(\syn{x}_0,\syn{x}_1) \defeq
+    \cispos(\syn{x}_1 \ominus \syn{x}_0)
+  \end{equation*}
+\end{myProof}
+
+\begin{myDefinition}[論理演算]
+  関係$\syn{R},\syn{S} \subseteq \synNat^n$について，論理演算$\lnot\syn{R},\syn{R}\land\syn{S},\syn{R}\lor\syn{S}$を以下のように定義する．
+  \begin{enumerate}
+    \item $\vec{\syn{x}} \in \lnot \syn{R} \iff \vec{\syn{x}} \notin \lnot \syn{R}$
+    \item $\vec{\syn{x}} \in \syn{R} \land \syn{S} \iff \text{$\vec{\syn{x}} \in \syn{R}$と$\vec{\syn{x}} \in \syn{S}$の両方が成立}$
+    \item $\vec{\syn{x}} \in \syn{R} \lor \syn{S} \iff \text{$\vec{\syn{x}} \in \syn{R}$または$\vec{\syn{x}} \in \syn{S}$の少なくとも一方が成立}$
+  \end{enumerate}
+\end{myDefinition}
+
+\begin{myTheorem}
+  \label{thm:prim-rec-logical}
+  関係$\syn{R},\syn{S} \subseteq \synNat^n$が原始再帰関係であるとき，$\lnot\syn{R},\syn{R}\land\syn{S},\syn{R}\lor\syn{S}$は原始再帰関係である．
+\end{myTheorem}
+\begin{myProof}[\ref{thm:prim-rec-logical}]
+  原始再帰関係$\syn{R},\syn{S}$の特性関数をそれぞれ$\chi_{\syn{R}},\chi_{\syn{S}}$とする．
+  定義より，$\chi_{\syn{R}},\chi_{\syn{S}}$は原始再帰関数である．
+  \begin{enumerate}
+    \item $\lnot\syn{R}$の特性関数$\chi_{\lnot\syn{R}}$を
+          $\chi_{\lnot\syn{R}}(\vec{\syn{x}}) \defeq \ciszero(\chi_{\syn{R}}(\vec{\syn{x}}))$
+          と定義すると要件を満たし，原始再帰的関数である．
+    \item $\syn{R}\land\syn{S}$の特性関数$\chi_{\syn{R}\land\syn{S}}$を
+          $\chi_{\syn{R}\land\syn{S}}(\vec{\syn{x}}) \defeq \chi_{\syn{R}}(\vec{\syn{x}}) \times \chi_{\syn{S}}(\vec{\syn{x}})$
+          と定義すると要件を満たし，原始再帰的関数である．
+    \item $\syn{R}\lor\syn{S}$の特性関数$\chi_{\syn{R}\lor\syn{S}}$を
+          $\chi_{\syn{R}\lor\syn{S}}(\vec{\syn{x}}) \defeq \cispos(\chi_{\syn{R}}(\vec{\syn{x}}) + \chi_{\syn{S}}(\vec{\syn{x}}))$
+          と定義すると要件を満たし，原始再帰的関数である．
+  \end{enumerate}
+\end{myProof}
+
+\begin{myDefinition}
+  関係$\lnot \syn{Eq}$を$\syn{NEq}$と定義する．
+  以下，$(\syn{x}_0,\syn{x}_1) \in \syn{Neq}$を$\syn{x}_0 \neq \syn{x}_1$と表す．
+\end{myDefinition}
+
+\begin{myCorollary}
+  関係$\syn{Neq}$は原始再帰関係である．
+\end{myCorollary}
+
+\begin{myDefinition}
+  関係$\syn{Eq} \lor \syn{Lt}$を$\syn{LEq}$と定義する．
+  以下，$(\syn{x}_0,\syn{x}_1) \in \syn{LEq}$を$\syn{x}_0 \leq \syn{x}_1$と表す．
+\end{myDefinition}
+
+\begin{myCorollary}
+  関係$\syn{LEq}$は原始再帰関係である．
+\end{myCorollary}
+
+\begin{myDefinition}[有界総和]
+  関数$\syn{f}:\synNat^{n+1} \to \synNat$に対し，関数$\syn{\Sigma_f}:\synNat^{n+1} \to \synNat$を以下のように定める．
+  \begin{equation*}
+    \syn{\Sigma_f}(\vec{\syn{x}},\syn{0}) \defeq \syn{f}(\vec{\syn{x}},\syn{0})
+  \end{equation*}
+  \begin{equation*}
+    \syn{\Sigma_f}(\vec{\syn{x}},\synS\syn{x}_n) \defeq \syn{\Sigma_f}(\vec{\syn{x}},\syn{x}_n) + \syn{f}(\vec{\syn{x}},\synS\syn{x}_n)
+  \end{equation*}
+  $\syn{\Sigma_f}(\vec{\syn{x}},\syn{x}_n)$を，$\syn{f}$の$\vec{\syn{x}}$に対しての$\syn{x}_n$までの総和と呼ぶ．
+\end{myDefinition}
+
+\begin{myDefinition}[有界総乗]
+  関数$\syn{f}:\synNat^{n+1} \to \synNat$に対し，関数$\syn{\Pi_f}:\synNat^{n+1} \to \synNat$を以下のように定める．
+  \begin{equation*}
+    \syn{\Pi_f}(\vec{\syn{x}},\syn{0}) \defeq \syn{f}(\vec{\syn{x}},\syn{0})
+  \end{equation*}
+  \begin{equation*}
+    \syn{\Pi_f}(\vec{\syn{x}},\synS\syn{x}_n) \defeq \syn{\Pi_f}(\vec{\syn{x}},\syn{x}_n) \times \syn{f}(\vec{\syn{x}},\synS\syn{x}_n)
+  \end{equation*}
+  $\syn{\Pi_f}(\vec{\syn{x}},\syn{x}_n)$を，$\syn{f}$の$\vec{\syn{x}}$に対しての$\syn{x}_n$までの総乗と呼ぶ．
+\end{myDefinition}
+
+\begin{myDefinition}[有界全称量化]
+  関係$\syn{R} \subseteq \synNat^{n+1}$について，
+  関係$\forall_{\syn{y} \leq \syn{x}_n} \syn{R}(\vec{\syn{x}},\syn{y}) \subseteq \synNat^{n+1}$
+  を以下のように定義する．
+  \begin{equation*}
+    (\vec{\syn{x}},\syn{x}_n) \in \forall_{\syn{y} \leq \syn{x}_n} \syn{R}(\vec{\syn{x}},\syn{y})
+    \iff
+    \text{$\syn{x}_n$以下の任意の$\syn{y} \in \synNat$で$(\vec{\syn{x}},\syn{y}) \in \syn{R}$となる}
+  \end{equation*}
+\end{myDefinition}
+
+\begin{myTheorem}
+  関係$\syn{R} \subseteq \synNat^{n+1}$が原始再帰関係であるとき，
+  関係$\forall_{\syn{y} \leq \syn{x}_n} \syn{R}(\vec{\syn{x}},\syn{y})$
+  も原始再帰関係．
+\end{myTheorem}
+\begin{myProof}
+  以下の関数$\chi_{\forall_{\syn{y} \leq \syn{x}_n} \syn{R}(\vec{\syn{x}},\syn{y})}$
+  は原始再帰関数である．
+  \begin{equation*}
+    \chi_{\forall_{\syn{y} \leq \syn{x}_n} \syn{R}(\vec{\syn{x}},\syn{y})}
+    (\vec{\syn{x}},\syn{x}_n)
+    \defeq
+    \syn{\Pi}_{\chi_{\cfun{R}}}(\vec{\syn{x}},\syn{x}_n)
+  \end{equation*}
+  展開すると，
+  \begin{align*}
+    \syn{\Pi}_{\chi_{\cfun{R}}}(\vec{\syn{x}},\syn{x}_n)
+     & \Rightarrow
+    \chi_{\cfun{R}}(\vec{\syn{x}},\syn{0}) \times \chi_{\cfun{R}}(\vec{\syn{x}},\syn{1}) \times \cdots \times \chi_{\cfun{R}}(\vec{\syn{x}},\syn{x}_n)
+  \end{align*}
+  となり，$\forall_{\syn{y} \leq \syn{x}_n} \syn{R}(\vec{\syn{x}},\syn{y})$の特性関数としての
+  要件を満たしていることは明らか．
+\end{myProof}
+
+\begin{myDefinition}[有界存在量化]
+  関係$\syn{R} \subseteq \synNat^{n+1}$について，
+  関係$\exists_{\syn{y} \leq \syn{x}_n} \syn{R}(\vec{\syn{x}},\syn{y}) \subseteq \synNat^{n+1}$
+  を以下のように定義する．
+  \begin{equation*}
+    (\vec{\syn{x}},\syn{x}_n) \in \exists_{\syn{y} \leq \syn{x}_n} \syn{R}(\vec{\syn{x}},\syn{y})
+    \iff
+    \text{$\syn{x}_n$以下のある$\syn{y} \in \synNat$で$(\vec{\syn{x}},\syn{y}) \in \syn{R}$となる$\syn{y}$が存在する}
+  \end{equation*}
+\end{myDefinition}
+
+\begin{myTheorem}
+  関係$\syn{R} \subseteq \synNat^{n+1}$が原始再帰関係であるとき，
+  関係$\exists_{\syn{y} \leq \syn{x}_n} \syn{R}(\vec{\syn{x}},\syn{y})$
+  も原始再帰関係．
+\end{myTheorem}
+\begin{myProof}
+  以下の関数$\chi_{\exists_{\syn{y} \leq \syn{x}_n} \syn{R}(\vec{\syn{x}},\syn{y})}$
+  は原始再帰関数である．
+  \begin{equation*}
+    \chi_{\exists_{\syn{y} \leq \syn{x}_n} \syn{R}(\vec{\syn{x}},\syn{y})}
+    (\vec{\syn{x}},\syn{x}_n)
+    \defeq
+    \cispos(\syn{\Sigma}_{\chi_{\cfun{R}}}(\vec{\syn{x}},\syn{x}_n))
+  \end{equation*}
+  展開すると，
+  \begin{align*}
+    \cispos(\syn{\Sigma}_{\chi_{\cfun{R}}}(\vec{\syn{x}},\syn{x}_n))
+     & \Rightarrow
+    \cispos(\chi_{\cfun{R}}(\vec{\syn{x}},\syn{0}) + \chi_{\cfun{R}}(\vec{\syn{x}},\syn{1}) + \cdots + \chi_{\cfun{R}}(\vec{\syn{x}},\syn{x}_n))
+  \end{align*}
+  となり，$\exists_{\syn{y} \leq \syn{x}_n} \syn{R}(\vec{\syn{x}},\syn{y})$の特性関数としての
+  要件を満たしていることは明らか．
+\end{myProof}
+
+\begin{myTheorem}[偶数の集合]
+  0または偶数個の$\synS$を持っている自然数の集合$\syn{Even} \subseteq \synNat$，
+  すなわち，$\syn{Even} \defeq \{\syn{0}, \syn{2}, \syn{4},\dots\}$は原始再帰集合である．
+\end{myTheorem}
+
+\begin{myTheorem}[約数関係]
+  「$\syn{x}_0$は$\syn{x}_1$を割り切る」を意味する$\syn{div} \subseteq \synNat^2$は原始再帰関係である．
+\end{myTheorem}
+
+\begin{myTheorem}[素数の集合]
+  素数個の$\synS$を持っている自然数の集合$\syn{Prime} \subseteq \synNat$，
+  すなわち，$\syn{Prime} \defeq \{\syn{2}, \syn{3}, \syn{5},\dots\}$は原始再帰集合である．
+\end{myTheorem}
+
+\begin{myTheorem}[素数の探索範囲の上界]
+  $p_n$を$n$番目の素数としたとき，$n+1$番目の素数$p_{n+1}$は$p_n! + 1$以下に存在する．
+\end{myTheorem}
+
+\begin{myDefinition}[形式的の素数]
+  $n+1$番目の素数を$p_n$とする．$\syn{p_n}$は$p_n$個の$\synS$を持つ自然数を表すと定義する．
+  例えば，$\syn{p_0} = \syn{2}, \syn{p_1} = \syn{3}, \syn{p_2} = \syn{5}$である．
+\end{myDefinition}
+
+\begin{myDefinition}
+  $\syn{x}$に対して$\syn{p_x}$を計算する関数を$\cfun{pr}:\synNat \to \synNat$とする．
+\end{myDefinition}
+
+\begin{myTheorem}
+  $\cfun{pr}$は原始再帰関数である．
+\end{myTheorem}
